@@ -1,0 +1,81 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  nama      String
+  alamat    String
+  no_tlp    String @unique
+  pekerjaan String
+  email     String @unique
+  password  String
+
+  // Relasi
+  expenses          Expense[]
+  incomes           Income[]
+  expenseCategories ExpenseCategory[]
+  incomeCategories  IncomeCategory[]
+}
+
+model Expense {
+  id        Int      @id @default(autoincrement())
+  deskripsi String
+  amount    Float
+  createdAt DateTime @default(now())
+
+  // Foreign key ke user
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  // Foreign key ke kategori pengeluaran
+  categoryId Int
+  category   ExpenseCategory @relation(fields: [categoryId], references: [id])
+}
+
+model Income {
+  id Int @id @default(autoincrement())
+
+  no_pembelian     String
+  nama_pembeli     String
+  jumlah_pembelian Int
+  createdAt        DateTime @default(now())
+
+  // Foreign key ke user
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  // Foreign key ke kategori pemasukan
+  categoryId Int
+  category   IncomeCategory @relation(fields: [categoryId], references: [id])
+}
+
+model ExpenseCategory {
+  id        Int    @id @default(autoincrement())
+  nama      String
+  deskripsi String
+
+  // Foreign key ke user
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  // Relasi ke pengeluaran
+  expenses Expense[]
+}
+
+model IncomeCategory {
+  id           Int    @id @default(autoincrement())
+  nama_barang  String
+  harga_barang Float
+  discount     Float?
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  incomes Income[]
+}
