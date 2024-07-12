@@ -28,7 +28,7 @@ export const createExpense = async (req, res) => {
         const newExpense = await prisma.expense.create({
             data: {
                 deskripsi,
-                amount,
+                amount: parseInt(amount),
                 userId: parseInt(userId),
                 categoryId: parseInt(categoryId),
                 createdAt: new Date(createdAt)
@@ -43,7 +43,7 @@ export const createExpense = async (req, res) => {
 
 export const editExpense = async (req, res) => {
     const { id } = req.params;
-    const { deskripsi, amount, userId, categoryId, createdAt } = req.body;
+    const { deskripsi, amount, categoryId, createdAt } = req.body;
 
     try {
         const updatedExpense = await prisma.expense.update({
@@ -52,8 +52,7 @@ export const editExpense = async (req, res) => {
             },
             data: {
                 deskripsi,
-                amount,
-                userId: parseInt(userId),
+                amount: parseInt(amount),
                 categoryId: parseInt(categoryId),
                 createdAt : new Date(createdAt)
             }

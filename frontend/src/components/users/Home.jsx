@@ -132,13 +132,13 @@ const Home = () => {
     }
   };
 
-  const incomeCategories = [
+  const incomeCategories = incomes.items ? [
     ...new Set(
       incomes.flatMap((income) =>
         income.items.map((item) => item.category.nama_barang)
       )
     ),
-  ];
+  ] : [];
   const expenseCategories = [
     ...new Set(expenses.map((expense) => expense.category.nama)),
   ];
@@ -147,7 +147,7 @@ const Home = () => {
   ].sort();
 
   const getIncomeTotal = (category) => {
-    return incomes
+    return incomes.items ? incomes
       .filter((income) => {
         return income.items.some(
           (item) => item.category.nama_barang === category
@@ -163,11 +163,11 @@ const Home = () => {
                 subtotal +
                 (item.category.harga_barang -
                   item.category.harga_barang * (item.category.discount / 100)) *
-                  item.jumlah_pembelian,
+                item.jumlah_pembelian,
               0
             )
         );
-      }, 0);
+      }, 0) : [];
   };
 
   const getExpenseTotal = (category) => {
@@ -650,10 +650,10 @@ const Home = () => {
                     {paginateData(incomes, incomePage).map((income) => (
                       <tr key={income.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          {income.nama_pembeli}
+                          {(income.nama_pembeli) !== null ? income.nama_pembeli : 'N/A'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          Rp. {formatRupiah(income.total_pembelian)}
+                          Rp. {(formatRupiah(income.total_pembelian)) !== null ? income.total_pembelian : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           {new Date(income.createdAt).toLocaleDateString()}
@@ -716,13 +716,13 @@ const Home = () => {
                     {paginateData(expenses, expensePage).map((expense) => (
                       <tr key={expense.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          {expense.deskripsi}
+                          {(expense.deskripsi) !== null ? expense.deskripsi : 'N/A'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          Rp. {formatRupiah(expense.amount)}
+                          Rp. {formatRupiah(expense.amount) !== null ? expense.amount : 'N/A'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          {expense.category.nama}
+                          {(expense.category.nama) !== null ? expense.category.nama : 'N/A'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           {new Date(expense.createdAt).toLocaleDateString()}
