@@ -122,7 +122,7 @@ const ExpenseCategory = () => {
       <div className="flex max-w-6xl mt-16 mx-auto mb-1 bg-gray-800 p-6 rounded-xl shadow">
         <div className="w-1/2 pr-4">
           <h2 className="text-xl font-bold mb-4 text-gray-200">
-            Lists Expense Categories
+            Daftar Kategori Pengeluaran
           </h2>
           <table className="w-full mb-4">
             <thead>

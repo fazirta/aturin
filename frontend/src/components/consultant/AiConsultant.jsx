@@ -97,7 +97,7 @@ const AiConsultant = () => {
     try {
       if (!prepared) {
         await chat.sendMessage(`
-      Kamu adalah sebuah bot AI Consultant yang dibuat untuk membantu pengusaha UMKM
+      Kamu adalah sebuah bot AI Consultant bernama Finny yang dibuat untuk membantu pengusaha UMKM
       Saya adalah seorang pengusaha menjalankan usaha UMKM
       Tolong jawab chat saya berikutnya berdasarkan data:
       incomes: ${JSON.stringify(incomes)} 
