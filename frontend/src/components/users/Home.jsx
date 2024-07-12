@@ -132,15 +132,14 @@ const Home = () => {
     }
   };
 
-  const incomeCategories = incomes.items
-    ? [
-        ...new Set(
-          incomes.flatMap((income) =>
-            income.items.map((item) => item.category.nama_barang)
-          )
-        ),
-      ]
-    : [];
+  const incomeCategories = [
+    ...new Set(
+      incomes.flatMap((income) =>
+        income.items.map((item) => item.category.nama_barang)
+      )
+    ),
+  ];
+
   const expenseCategories = [
     ...new Set(expenses.map((expense) => expense.category.nama)),
   ];
@@ -149,30 +148,27 @@ const Home = () => {
   ].sort();
 
   const getIncomeTotal = (category) => {
-    return incomes.items
-      ? incomes
-          .filter((income) => {
-            return income.items.some(
-              (item) => item.category.nama_barang === category
-            );
-          })
-          .reduce((sum, income) => {
-            return (
-              sum +
-              income.items
-                .filter((item) => item.category.nama_barang === category)
-                .reduce(
-                  (subtotal, item) =>
-                    subtotal +
-                    (item.category.harga_barang -
-                      item.category.harga_barang *
-                        (item.category.discount / 100)) *
-                      item.jumlah_pembelian,
-                  0
-                )
-            );
-          }, 0)
-      : [];
+    return incomes
+      .filter((income) => {
+        return income.items.some(
+          (item) => item.category.nama_barang === category
+        );
+      })
+      .reduce((sum, income) => {
+        return (
+          sum +
+          income.items
+            .filter((item) => item.category.nama_barang === category)
+            .reduce(
+              (subtotal, item) =>
+                subtotal +
+                (item.category.harga_barang -
+                  item.category.harga_barang * (item.category.discount / 100)) *
+                  item.jumlah_pembelian,
+              0
+            )
+        );
+      }, 0);
   };
 
   const getExpenseTotal = (category) => {
