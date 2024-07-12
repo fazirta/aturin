@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "461728840541",
+    "project_id": "area51cando",
+    "storage_bucket": "area51cando.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461728840541:android:c9055930cdd76315fd86b4",
+        "android_client_info": {
+          "package_name": "com.example.area51"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461728840541-nl7b68oqj7q3i2jpkh8s8jsbbikt3f8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHeYyk8Q7DOO88nc-l0egfL3KbrBFrXx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461728840541-nl7b68oqj7q3i2jpkh8s8jsbbikt3f8b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "461728840541-176v374k0gnj7aem8bl3ue0vl67rcr39.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.area51"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
