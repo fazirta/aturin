@@ -17,6 +17,32 @@ const AiConsultant = () => {
   const [products, setProducts] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [incomes, setIncomes] = useState([]);
+  const [starterQuestions, setStarterQuestions] = useState([
+    {
+      title: "Cara memasarkan produk",
+      description: "untuk meningkatkan pendapatan",
+      prompt:
+        "Bagaimana cara memasarkan produk untuk meningkatkan pendapatan dari usaha UMKM saya?",
+    },
+    {
+      title: "Mengatur pembagian modal awal",
+      description: "untuk memulai bisnis dengan lancar",
+      prompt:
+        "Bagaimana cara terbaik untuk mengatur pembagian modal awal agar bisnis dapat dimulai dengan lancar?",
+    },
+    {
+      title: "Membuat strategi perkembangan bisnis",
+      description: "untuk mencapai pertumbuhan yang berkelanjutan",
+      prompt:
+        "Apa langkah-langkah utama dalam membuat strategi perkembangan bisnis untuk mencapai pertumbuhan yang berkelanjutan?",
+    },
+    {
+      title: "Analisis risiko bisnis",
+      description: "untuk mengidentifikasi dan mengelola risiko",
+      prompt:
+        "Bagaimana melakukan analisis risiko bisnis untuk mengidentifikasi dan mengelola risiko yang dapat mempengaruhi pendapatan?",
+    },
+  ]);
   const [summary, setSummary] = useState("");
   const [history, setHistory] = useState([
     {
@@ -51,12 +77,16 @@ const AiConsultant = () => {
   }, [chat, model]);
 
   async function chatting() {
+    startQuestion(null);
+  }
+
+  async function startQuestion(prompt) {
     setLoading(true);
     setHistory((oldHistory) => [
       ...oldHistory,
       {
         role: "user",
-        parts: input,
+        parts: prompt ? prompt : input,
       },
       {
         role: "model",
@@ -75,7 +105,7 @@ const AiConsultant = () => {
       `);
         setPrepared(true);
       }
-      const result = await chat.sendMessage(input);
+      const result = await chat.sendMessage(prompt ? prompt : input);
       const response = await result.response;
       const text = response.text();
       setLoading(false);
@@ -256,34 +286,53 @@ const AiConsultant = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="absolute px-2 bottom-2 w-full flex gap-2">
-          <textarea
-            type="text"
-            value={input}
-            required
-            rows={1}
-            onKeyDown={handleKeyDown}
-            onChange={(e) => setinput(e.target.value)}
-            placeholder="Tanyakan sesuatu..."
-            className="outline-none bg-gray-600 text-white px-5 py-2 backdrop-blur w-full mx-auto bg-opacity-60 font-medium shadow rounded-3xl"
-          />
-          <button
-            className={`text-white w-12 h-11 flex justify-center backdrop-blur bg-opacity-60 items-center bg-gray-600 rounded-3xl shadow-md ${
-              loading ? "cursor-wait pointer-events-none" : ""
-            }`}
-            title="send"
-            onClick={chatting}
-          >
-            {loading ? (
-              <div class="relative inline-flex">
-                <div class="w-4 h-4 bg-indigo-500 rounded-full"></div>
-                <div class="w-4 h-4 bg-indigo-500 rounded-full absolute top-0 left-0 animate-ping"></div>
-                <div class="w-4 h-4 bg-indigo-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
-              </div>
-            ) : (
-              <FaArrowUp />
-            )}
-          </button>
+        <div className="absolute px-2 bottom-2 w-full flex flex-col gap-2">
+          {!prepared && (
+            <div className="grid grid-cols-2 gap-2 pb-5">
+              {starterQuestions.map((question) => (
+                <div
+                  className="bg-gray-800 rounded-2xl border border-gray-600 px-4 py-2 cursor-pointer"
+                  onClick={() => {
+                    startQuestion(question.prompt);
+                  }}
+                >
+                  <h1 className="dark:text-white font-bold">
+                    {question.title}
+                  </h1>
+                  <h2 className="dark:text-gray-400">{question.description}</h2>
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="flex gap-2">
+            <textarea
+              type="text"
+              value={input}
+              required
+              rows={1}
+              onKeyDown={handleKeyDown}
+              onChange={(e) => setinput(e.target.value)}
+              placeholder="Tanyakan sesuatu..."
+              className="outline-none bg-gray-600 text-white px-5 py-2 backdrop-blur w-full mx-auto bg-opacity-60 font-medium shadow rounded-3xl"
+            />
+            <button
+              className={`text-white w-12 h-11 flex justify-center backdrop-blur bg-opacity-60 items-center bg-gray-600 rounded-3xl shadow-md ${
+                loading ? "cursor-wait pointer-events-none" : ""
+              }`}
+              title="send"
+              onClick={chatting}
+            >
+              {loading ? (
+                <div class="relative inline-flex">
+                  <div class="w-4 h-4 bg-indigo-500 rounded-full"></div>
+                  <div class="w-4 h-4 bg-indigo-500 rounded-full absolute top-0 left-0 animate-ping"></div>
+                  <div class="w-4 h-4 bg-indigo-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
+                </div>
+              ) : (
+                <FaArrowUp />
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
