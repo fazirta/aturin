@@ -133,7 +133,11 @@ const Home = () => {
   };
 
   const incomeCategories = [
-    ...new Set(incomes.map((income) => income.nama_barang)),
+    ...new Set(
+      incomes.flatMap((income) =>
+        income.items.map((item) => item.category.nama_barang)
+      )
+    ),
   ];
   const expenseCategories = [
     ...new Set(expenses.map((expense) => expense.category.nama)),
@@ -144,8 +148,26 @@ const Home = () => {
 
   const getIncomeTotal = (category) => {
     return incomes
-      .filter((income) => income.nama_barang === category)
-      .reduce((sum, income) => sum + income.total, 0);
+      .filter((income) => {
+        return income.items.some(
+          (item) => item.category.nama_barang === category
+        );
+      })
+      .reduce((sum, income) => {
+        return (
+          sum +
+          income.items
+            .filter((item) => item.category.nama_barang === category)
+            .reduce(
+              (subtotal, item) =>
+                subtotal +
+                (item.category.harga_barang -
+                  item.category.harga_barang * (item.category.discount / 100)) *
+                  item.jumlah_pembelian,
+              0
+            )
+        );
+      }, 0);
   };
 
   const getExpenseTotal = (category) => {
@@ -204,7 +226,7 @@ const Home = () => {
       if (!aggregated[date]) {
         aggregated[date] = 0;
       }
-      aggregated[date] += item.total || item.amount;
+      aggregated[date] += item.total_pembelian || item.amount;
     });
     return Object.entries(aggregated).map(([date, total]) => ({
       x: parseISO(date),
@@ -342,7 +364,10 @@ const Home = () => {
       {
         data: [
           Math.max(
-            incomes.reduce((sum, income) => sum + (income.total_pembelian || 0), 0),
+            incomes.reduce(
+              (sum, income) => sum + (income.total_pembelian || 0),
+              0
+            ),
             0.01
           ),
           Math.max(
@@ -470,7 +495,7 @@ const Home = () => {
       const priceAfterDiscount = basePrice - discountAmount;
       const taxAmount = priceAfterDiscount * 0.025;
       const total = priceAfterDiscount - taxAmount;
-      updatedIncome.total = total;
+      updatedIncome.total_pembelian = total;
     }
 
     const incomeWithCategory = {
@@ -578,7 +603,10 @@ const Home = () => {
                     <dd className="mt-1 text-lg font-bold text-gray-100 sm:mt-0 sm:col-span-2">
                       Rp.{" "}
                       {formatRupiah(
-                        incomes.reduce((sum, income) => sum + income.total, 0)
+                        incomes.reduce(
+                          (sum, income) => sum + income.total_pembelian,
+                          0
+                        )
                       )}
                     </dd>
                   </div>
@@ -615,9 +643,6 @@ const Home = () => {
                         Amount
                       </th>
                       <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Barang
-                      </th>
-                      <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Date
                       </th>
                       <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
@@ -635,12 +660,7 @@ const Home = () => {
                           {income.nama_pembeli}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          Rp. {formatRupiah(income.total)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          {income.category
-                            ? income.category.nama_barang
-                            : "N/A"}
+                          Rp. {formatRupiah(income.total_pembelian)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           {new Date(income.createdAt).toLocaleDateString()}
