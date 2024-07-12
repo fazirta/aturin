@@ -32,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-gray-900 flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="bg-gray-900 flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 w-screen">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src="/logo512.png" alt="Logo" className="w-32 mx-auto" />
       </div>
@@ -85,6 +85,15 @@ const Login = () => {
             >
               Masuk
             </button>
+          </div>
+          <div className="flex gap-1 text-white">
+            <p>Belum punya akun?</p>
+            <a
+              className="underline text-indigo-300 cursor-pointer"
+              href="/register"
+            >
+              Registrasi
+            </a>
           </div>
         </form>
       </div>
