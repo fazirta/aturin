@@ -48,7 +48,7 @@ const AiConsultant = () => {
     {
       role: "model",
       parts:
-        "Halo! Apa kabar? Ada yang ingin Anda tanyakan tentang data keuangan UMKM Anda?",
+        "Halo saya Finny! Ada yang ingin Anda tanyakan tentang data keuangan UMKM Anda?",
     },
   ]);
   const [input, setinput] = useState("");
@@ -97,6 +97,7 @@ const AiConsultant = () => {
     try {
       if (!prepared) {
         await chat.sendMessage(`
+      Kamu adalah sebuah bot AI Consultant yang dibuat untuk membantu pengusaha UMKM
       Saya adalah seorang pengusaha menjalankan usaha UMKM
       Tolong jawab chat saya berikutnya berdasarkan data:
       incomes: ${JSON.stringify(incomes)} 
@@ -227,9 +228,11 @@ const AiConsultant = () => {
 
   return (
     <div className="px-5 pt-8">
-      <h1 className="dark:text-white font-bold text-2xl flex items-center gap-4">
-        <FaRobot /> AI CONSULTANT
-      </h1>
+      <div className="mx-5">
+        <h1 className="dark:text-white font-bold text-3xl flex items-center gap-4">
+          <FaRobot /> Finny
+        </h1>
+      </div>
       <div className="flex justify-center gap-2">
         {summary && (
           <h2 className="mt-5 py-3 px-5 max-w-96 rounded-2xl bg-cyan-700">
@@ -248,7 +251,7 @@ const AiConsultant = () => {
           </h2>
         )}
       </div>
-      <div className="mx-auto my-3 relative flex p-4 justify-center max-w-3xl h-[600px] w-full bg-gray-800 rounded-3xl shadow shadow-gray-900">
+      <div className="mx-auto mt-3 mb-5 relative flex p-4 justify-center max-w-3xl h-[600px] w-full bg-gray-800 rounded-3xl shadow shadow-gray-900">
         <div className="flex gap-5 text-sm md:text-base flex-col px-5 pt-4 pb-16 w-full flex-grow flex-1 rounded-3xl shadow-md overflow-y-auto">
           {history.map((item, index) => (
             <div
@@ -266,7 +269,7 @@ const AiConsultant = () => {
               >
                 {item.role === "model" ? (
                   <>
-                    <FaRobot /> ✨
+                    <FaRobot /> Finny
                   </>
                 ) : (
                   <>
