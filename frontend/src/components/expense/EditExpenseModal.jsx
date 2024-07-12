@@ -1,35 +1,38 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState } from "react";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EditExpenseModal = ({ expense, onClose, onUpdate }) => {
-    const [editedExpense, setEditedExpense] = useState({
-      ...expense,
-      createdAt: new Date(expense.createdAt)
-    });
-  
-    const handleChange = (e) => {
-      setEditedExpense({ ...editedExpense, [e.target.name]: e.target.value });
-    };
-  
-    const handleDateChange = (date) => {
-      setEditedExpense({ ...editedExpense, createdAt: date });
-    };
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.put(`http://localhost:5000/expense/${expense.id}`, {
+  const [editedExpense, setEditedExpense] = useState({
+    ...expense,
+    createdAt: new Date(expense.createdAt),
+  });
+
+  const handleChange = (e) => {
+    setEditedExpense({ ...editedExpense, [e.target.name]: e.target.value });
+  };
+
+  const handleDateChange = (date) => {
+    setEditedExpense({ ...editedExpense, createdAt: date });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/expense/${expense.id}`,
+        {
           ...editedExpense,
-          createdAt: editedExpense.createdAt.toISOString()
-        });
-        onUpdate(response.data);
-        onClose();
-      } catch (error) {
-        console.error('Error updating Expense:', error);
-      }
-    };
+          createdAt: editedExpense.createdAt.toISOString(),
+        }
+      );
+      onUpdate(response.data);
+      onClose();
+    } catch (error) {
+      console.error("Error updating Expense:", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -37,7 +40,10 @@ const EditExpenseModal = ({ expense, onClose, onUpdate }) => {
         <h3 className="text-lg font-medium text-gray-100 mb-4">Edit Expense</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="deskripsi">
+            <label
+              className="block text-gray-300 text-sm font-bold mb-2"
+              htmlFor="deskripsi"
+            >
               Description
             </label>
             <input
@@ -50,7 +56,10 @@ const EditExpenseModal = ({ expense, onClose, onUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="amount">
+            <label
+              className="block text-gray-300 text-sm font-bold mb-2"
+              htmlFor="amount"
+            >
               Amount
             </label>
             <input
@@ -63,7 +72,10 @@ const EditExpenseModal = ({ expense, onClose, onUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="createdAt">
+            <label
+              className="block text-gray-300 text-sm font-bold mb-2"
+              htmlFor="createdAt"
+            >
               Date
             </label>
             <DatePicker

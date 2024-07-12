@@ -1,36 +1,38 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-
+import React, { useState } from "react";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EditIncomeModal = ({ income, onClose, onUpdate }) => {
-    const [editedIncome, setEditedIncome] = useState({
-      ...income,
-      createdAt: new Date(income.createdAt)
-    });
-  
-    const handleChange = (e) => {
-      setEditedIncome({ ...editedIncome, [e.target.name]: e.target.value });
-    };
-  
-    const handleDateChange = (date) => {
-      setEditedIncome({ ...editedIncome, createdAt: date });
-    };
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.put(`http://localhost:5000/income/${income.id}`, {
+  const [editedIncome, setEditedIncome] = useState({
+    ...income,
+    createdAt: new Date(income.createdAt),
+  });
+
+  const handleChange = (e) => {
+    setEditedIncome({ ...editedIncome, [e.target.name]: e.target.value });
+  };
+
+  const handleDateChange = (date) => {
+    setEditedIncome({ ...editedIncome, createdAt: date });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/income/${income.id}`,
+        {
           ...editedIncome,
-          createdAt: editedIncome.createdAt.toISOString()
-        });
-        onUpdate(response.data);
-        onClose();
-      } catch (error) {
-        console.error('Error updating income:', error);
-      }
-    };
+          createdAt: editedIncome.createdAt.toISOString(),
+        }
+      );
+      onUpdate(response.data);
+      onClose();
+    } catch (error) {
+      console.error("Error updating income:", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -38,7 +40,10 @@ const EditIncomeModal = ({ income, onClose, onUpdate }) => {
         <h3 className="text-lg font-medium text-gray-100 mb-4">Edit Income</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="nama_pembeli">
+            <label
+              className="block text-gray-300 text-sm font-bold mb-2"
+              htmlFor="nama_pembeli"
+            >
               Nama Pembeli
             </label>
             <input
@@ -51,7 +56,10 @@ const EditIncomeModal = ({ income, onClose, onUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="jumlah_pembelian">
+            <label
+              className="block text-gray-300 text-sm font-bold mb-2"
+              htmlFor="jumlah_pembelian"
+            >
               Jumlah Pembelian
             </label>
             <input
@@ -64,7 +72,10 @@ const EditIncomeModal = ({ income, onClose, onUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="createdAt">
+            <label
+              className="block text-gray-300 text-sm font-bold mb-2"
+              htmlFor="createdAt"
+            >
               Date
             </label>
             <DatePicker

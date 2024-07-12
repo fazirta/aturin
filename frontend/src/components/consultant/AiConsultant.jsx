@@ -115,24 +115,33 @@ const AiConsultant = () => {
       try {
         const [incomesResponse, expensesResponse, productsResponse] =
           await Promise.all([
-            axios.get(`http://localhost:5000/incomes/user/${user.id}`, {
-              params: {
-                startDate: startDate.toISOString(),
-                endDate: endDate.toISOString(),
-              },
-            }),
-            axios.get(`http://localhost:5000/expense/user/${user.id}`, {
-              params: {
-                startDate: startDate.toISOString(),
-                endDate: endDate.toISOString(),
-              },
-            }),
-            axios.get(`http://localhost:5000/incomeCategories/${user.id}`, {
-              params: {
-                startDate: startDate.toISOString(),
-                endDate: endDate.toISOString(),
-              },
-            }),
+            axios.get(
+              `${process.env.REACT_APP_BACKEND_URL}/incomes/user/${user.id}`,
+              {
+                params: {
+                  startDate: startDate.toISOString(),
+                  endDate: endDate.toISOString(),
+                },
+              }
+            ),
+            axios.get(
+              `${process.env.REACT_APP_BACKEND_URL}/expense/user/${user.id}`,
+              {
+                params: {
+                  startDate: startDate.toISOString(),
+                  endDate: endDate.toISOString(),
+                },
+              }
+            ),
+            axios.get(
+              `${process.env.REACT_APP_BACKEND_URL}/incomeCategories/${user.id}`,
+              {
+                params: {
+                  startDate: startDate.toISOString(),
+                  endDate: endDate.toISOString(),
+                },
+              }
+            ),
           ]);
 
         incomes = incomesResponse.data;
