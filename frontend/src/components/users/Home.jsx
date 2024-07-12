@@ -132,13 +132,15 @@ const Home = () => {
     }
   };
 
-  const incomeCategories = incomes.items ? [
-    ...new Set(
-      incomes.flatMap((income) =>
-        income.items.map((item) => item.category.nama_barang)
-      )
-    ),
-  ] : [];
+  const incomeCategories = incomes.items
+    ? [
+        ...new Set(
+          incomes.flatMap((income) =>
+            income.items.map((item) => item.category.nama_barang)
+          )
+        ),
+      ]
+    : [];
   const expenseCategories = [
     ...new Set(expenses.map((expense) => expense.category.nama)),
   ];
@@ -147,27 +149,30 @@ const Home = () => {
   ].sort();
 
   const getIncomeTotal = (category) => {
-    return incomes.items ? incomes
-      .filter((income) => {
-        return income.items.some(
-          (item) => item.category.nama_barang === category
-        );
-      })
-      .reduce((sum, income) => {
-        return (
-          sum +
-          income.items
-            .filter((item) => item.category.nama_barang === category)
-            .reduce(
-              (subtotal, item) =>
-                subtotal +
-                (item.category.harga_barang -
-                  item.category.harga_barang * (item.category.discount / 100)) *
-                item.jumlah_pembelian,
-              0
-            )
-        );
-      }, 0) : [];
+    return incomes.items
+      ? incomes
+          .filter((income) => {
+            return income.items.some(
+              (item) => item.category.nama_barang === category
+            );
+          })
+          .reduce((sum, income) => {
+            return (
+              sum +
+              income.items
+                .filter((item) => item.category.nama_barang === category)
+                .reduce(
+                  (subtotal, item) =>
+                    subtotal +
+                    (item.category.harga_barang -
+                      item.category.harga_barang *
+                        (item.category.discount / 100)) *
+                      item.jumlah_pembelian,
+                  0
+                )
+            );
+          }, 0)
+      : [];
   };
 
   const getExpenseTotal = (category) => {
@@ -544,7 +549,7 @@ const Home = () => {
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div className="bg-gray-800 overflow-hidden shadow rounded-lg">
                 <div className="p-5" style={{ height: "400px" }}>
-                  <h2 className="text-lg font-medium text-gray-100">
+                  <h2 className="text-lg font-bold text-gray-100">
                     Income vs Expense Trend
                   </h2>
                   <Line data={lineChartData} options={lineChartOptions} />
@@ -552,7 +557,7 @@ const Home = () => {
               </div>
               <div className="bg-gray-800 overflow-hidden shadow rounded-lg">
                 <div className="p-5">
-                  <h2 className="text-lg font-medium text-gray-100">
+                  <h2 className="text-lg font-bold text-gray-100">
                     Income vs Expense Overview
                   </h2>
                   <div className="doughnut-container">
@@ -568,7 +573,7 @@ const Home = () => {
 
             <div className="bg-gray-800 overflow-hidden shadow rounded-lg mt-3">
               <div className="p-5">
-                <h2 className="text-lg font-medium text-gray-100">
+                <h2 className="text-lg font-bold text-gray-100">
                   Category Comparison
                 </h2>
                 <div className="bar-container">
@@ -584,14 +589,14 @@ const Home = () => {
             <div className="mt-8 bg-gray-800 shadow overflow-hidden sm:rounded-lg">
               <div className="px-4 py-5 sm:px-6">
                 <h3 className="text-lg leading-6 font-bold text-gray-100">
-                  Transaction Details
+                  Detail Transaksi
                 </h3>
               </div>
               <div className="border-t border-gray-700">
                 <dl>
                   <div className="bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-lg font-medium text-gray-400">
-                      Total Income
+                      Total Pemasukan
                     </dt>
                     <dd className="mt-1 text-lg font-bold text-gray-100 sm:mt-0 sm:col-span-2">
                       Rp.{" "}
@@ -605,7 +610,7 @@ const Home = () => {
                   </div>
                   <div className="bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-lg font-medium text-gray-400">
-                      Total Expense
+                      Total Pengeluaran
                     </dt>
                     <dd className="mt-1 text-lg font-bold text-gray-100 sm:mt-0 sm:col-span-2">
                       Rp.{" "}
@@ -624,7 +629,7 @@ const Home = () => {
             <div className="flex flex-1 w-full mx-auto my-10 bg-gray-800 p-2 rounded-xl shadow shadow-gray-700">
               <div className="w-full m-2">
                 <h2 className="text-xl font-bold mb-4 text-gray-100">
-                  All Incomes
+                  Semua Pemasukan
                 </h2>
                 <table className="w-full divide-y divide-gray-700">
                   <thead>
@@ -633,16 +638,16 @@ const Home = () => {
                         Nama
                       </th>
                       <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Amount
+                        Jumlah
                       </th>
                       <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Date
+                        Tanggal
                       </th>
                       <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Edit
                       </th>
                       <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Delete
+                        Hapus
                       </th>
                     </tr>
                   </thead>
@@ -650,10 +655,15 @@ const Home = () => {
                     {paginateData(incomes, incomePage).map((income) => (
                       <tr key={income.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          {(income.nama_pembeli) !== null ? income.nama_pembeli : 'N/A'}
+                          {income.nama_pembeli !== null
+                            ? income.nama_pembeli
+                            : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          Rp. {(formatRupiah(income.total_pembelian)) !== null ? income.total_pembelian : "N/A"}
+                          Rp.{" "}
+                          {formatRupiah(income.total_pembelian) !== null
+                            ? income.total_pembelian
+                            : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           {new Date(income.createdAt).toLocaleDateString()}
@@ -671,7 +681,7 @@ const Home = () => {
                             onClick={() => handleDeleteIncome(income.id)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            Delete
+                            Hapus
                           </button>
                         </td>
                       </tr>
@@ -687,28 +697,28 @@ const Home = () => {
               </div>
               <div className="w-full m-2">
                 <h2 className="text-xl font-bold mb-4 text-gray-100">
-                  All Expenses
+                  Semua Pengeluaran
                 </h2>
                 <table className="w-full divide-y divide-gray-700">
                   <thead>
                     <tr>
                       <th className="px-6 py-3 bg-red-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Description
+                        Deskripsi
                       </th>
                       <th className="px-6 py-3 bg-red-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Amount
+                        Jumlah
                       </th>
                       <th className="px-6 py-3 bg-red-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Category
+                        Kategori
                       </th>
                       <th className="px-6 py-3 bg-red-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Date
+                        Tanggal
                       </th>
                       <th className="px-6 py-3 bg-red-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Edit
                       </th>
                       <th className="px-6 py-3 bg-red-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Delete
+                        Hapus
                       </th>
                     </tr>
                   </thead>
@@ -716,13 +726,20 @@ const Home = () => {
                     {paginateData(expenses, expensePage).map((expense) => (
                       <tr key={expense.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          {(expense.deskripsi) !== null ? expense.deskripsi : 'N/A'}
+                          {expense.deskripsi !== null
+                            ? expense.deskripsi
+                            : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          Rp. {formatRupiah(expense.amount) !== null ? expense.amount : 'N/A'}
+                          Rp.{" "}
+                          {formatRupiah(expense.amount) !== null
+                            ? expense.amount
+                            : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                          {(expense.category.nama) !== null ? expense.category.nama : 'N/A'}
+                          {expense.category.nama !== null
+                            ? expense.category.nama
+                            : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           {new Date(expense.createdAt).toLocaleDateString()}
@@ -740,7 +757,7 @@ const Home = () => {
                             onClick={() => handleDeleteExpense(expense.id)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            Delete
+                            Hapus
                           </button>
                         </td>
                       </tr>

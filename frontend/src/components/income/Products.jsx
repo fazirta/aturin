@@ -164,16 +164,6 @@ const Products = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-100 mb-2">Stok Barang</label>
-              <input
-                type="number"
-                name="stock_barang"
-                value={editedCategory.stock_barang}
-                onChange={handleChange}
-                className="w-full py-2 px-3 text-white bg-gray-700 rounded"
-              />
-            </div>
-            <div className="mb-4">
               <label className="block text-gray-100 mb-2">Discount (%)</label>
               <input
                 type="number"

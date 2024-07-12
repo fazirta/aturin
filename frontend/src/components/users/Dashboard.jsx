@@ -125,7 +125,7 @@ const Dashboard = () => {
             className="flex items-center justify-center w-full p-2 bg-red-800 text-white rounded hover:bg-red-700 transition-colors duration-200"
           >
             <FaSignOutAlt className="mr-3" />
-            Logout
+            Keluar
           </button>
         </div>
       </div>
