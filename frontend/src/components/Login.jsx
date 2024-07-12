@@ -32,42 +32,58 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center h-screen w-screen bg-gray-900">
-      <div className="max-w-7xl mx-auto bg-white px-8 py-4 rounded-xl shadow shadow-slate-300">
-        <form onSubmit={loginUser} className="my-10">
-          <div className="flex flex-col">
-            <div className="mb-5">
-              <label className="font-bold text-slate-700">
-                Email atau No Telpon
-              </label>
+    <div className="bg-gray-900 flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img src="/logo512.png" alt="Logo" className="w-32 mx-auto" />
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" onSubmit={loginUser}>
+          <div>
+            <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+              Email atau nomor telepon
+            </label>
+            <div className="mt-2">
               <input
                 type="text"
-                className="w-full py-3 mt-1 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow"
-                placeholder="Masukkan email atau nomor telepon Anda"
                 value={emailOrPhone}
                 onChange={(e) => setEmailOrPhone(e.target.value)}
+                autocomplete="email"
+                required
+                className="bg-gray-800 block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6 px-4"
               />
             </div>
-            <div className="mb-5">
-              <label className="font-bold text-slate-700">Password</label>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between">
+              <label
+                for="password"
+                className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
+              >
+                Password
+              </label>
+            </div>
+            <div className="mt-2">
               <input
+                id="password"
+                name="password"
                 type="password"
-                className="w-full py-3 mt-1 border border-slate-200 rounded-lg px-3 focus:outline-none focus:border-slate-500 hover:shadow"
-                placeholder="Masukkan password Anda"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autocomplete="current-password"
+                required
+                className="bg-gray-800 block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:outline-none sm:text-sm sm:leading-6 px-4"
               />
             </div>
+          </div>
 
-            {errorMessage && (
-              <div className="mb-5 text-red-500">{errorMessage}</div>
-            )}
-
+          <div>
             <button
               type="submit"
-              className="w-full py-3 font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow"
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Login
+              Masuk
             </button>
           </div>
         </form>

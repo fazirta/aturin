@@ -232,7 +232,7 @@ const AiConsultant = () => {
       </h1>
       <div className="flex justify-center gap-2">
         {summary && (
-          <h2 className="mt-5 py-3 px-5 max-w-96 rounded-2xl bg-emerald-900">
+          <h2 className="mt-5 py-3 px-5 max-w-96 rounded-2xl bg-cyan-700">
             <h3 className="dark:text-white font-bold text-xl">Ringkasan</h3>
             <Markdown className="dark:text-white pt-2">
               {summary.charAt(0).toUpperCase() + summary.slice(1)}
@@ -240,7 +240,7 @@ const AiConsultant = () => {
           </h2>
         )}
         {suggestion && (
-          <h2 className="mt-5 py-3 px-5 max-w-96 rounded-2xl bg-teal-900">
+          <h2 className="mt-5 py-3 px-5 max-w-96 rounded-2xl bg-indigo-700">
             <h3 className="dark:text-white font-bold text-xl">Saran</h3>
             <Markdown className="dark:text-white pt-2">
               {suggestion.charAt(0).toUpperCase() + suggestion.slice(1)}
@@ -248,7 +248,7 @@ const AiConsultant = () => {
           </h2>
         )}
       </div>
-      <div className="mx-auto my-3 relative flex px-2 justify-center max-w-3xl h-[600px] w-full py-2  bg-gray-800 rounded-3xl shadow shadow-slate-900">
+      <div className="mx-auto my-3 relative flex p-4 justify-center max-w-3xl h-[600px] w-full bg-gray-800 rounded-3xl shadow shadow-gray-900">
         <div className="flex gap-5 text-sm md:text-base flex-col px-5 pt-4 pb-16 w-full flex-grow flex-1 rounded-3xl shadow-md overflow-y-auto">
           {history.map((item, index) => (
             <div
@@ -261,7 +261,7 @@ const AiConsultant = () => {
                 className={`dark:text-white pb-1 font-semibold opacity-80 flex items-center gap-2 ${
                   item.role === "model"
                     ? "dark:text-indigo-300"
-                    : "dark:text-emerald-300"
+                    : "dark:text-cyan-300"
                 }`}
               >
                 {item.role === "model" ? (
@@ -286,7 +286,7 @@ const AiConsultant = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="absolute px-2 bottom-2 w-full flex flex-col gap-2">
+        <div className="absolute px-5 bottom-5 w-full flex flex-col gap-2">
           {!prepared && (
             <div className="grid grid-cols-2 gap-2 pb-5">
               {starterQuestions.map((question) => (

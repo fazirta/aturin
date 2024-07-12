@@ -118,25 +118,25 @@ const Income = () => {
       <div className="flex flex-1 max-w-6xl mx-auto bg-gray-800 p-8 rounded-xl">
         <div className="w-1/2 mr-8">
           <h2 className="text-3xl font-bold mb-10 text-white">
-            Add New Pembelian
+            Tambah Pemasukan
           </h2>
           <form onSubmit={handleShowInvoice}>
             <div className="flex flex-col mb-5">
-              <label className="font-bold text-slate-500">No Pembelian</label>
+              <label className="font-bold text-gray-500">Nomor Pembelian</label>
               <input
                 type="text"
-                className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                placeholder="No Pembelian"
+                className="w-full py-3 mt-1 text-gray-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                placeholder="Masukkan nomor pembelian"
                 value={noPembelian}
                 onChange={(e) => setNoPembelian(e.target.value)}
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label className="font-bold text-slate-500">Nama Pembeli</label>
+              <label className="font-bold text-gray-500">Nama Pembeli</label>
               <input
                 type="text"
-                className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                placeholder="Nama Pembeli"
+                className="w-full py-3 mt-1 text-gray-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                placeholder="Masukkan nama pembeli"
                 value={namaPembeli}
                 onChange={(e) => setNamaPembeli(e.target.value)}
               />
@@ -144,13 +144,13 @@ const Income = () => {
             {selectedItems.map((item, index) => (
               <div key={index} className="flex mb-3">
                 <select
-                  className="w-1/2 py-3 mr-2 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                  className="w-1/2 py-3 mr-2 text-gray-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
                   value={item.categoryId}
                   onChange={(e) =>
                     updateItem(index, "categoryId", e.target.value)
                   }
                 >
-                  <option value="">Select Barang</option>
+                  <option value="">Pilih Barang</option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.nama_barang}
@@ -159,7 +159,7 @@ const Income = () => {
                 </select>
                 <input
                   type="number"
-                  className="w-1/2 py-3 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                  className="w-1/2 py-3 text-gray-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
                   placeholder="Jumlah"
                   value={item.jumlah_pembelian}
                   onChange={(e) =>
@@ -171,7 +171,7 @@ const Income = () => {
             <button
               type="button"
               onClick={addItem}
-              className="mt-2 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="mt-2 py-3 px-5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-500"
             >
               Tambah Barang
             </button>
@@ -180,7 +180,7 @@ const Income = () => {
                 type="submit"
                 className="w-full mt-7 py-3 font-bold text-white bg-gray-900 hover:bg-black rounded-lg hover:shadow"
               >
-                Show Invoice
+                Lihat Invoice
               </button>
             </div>
           </form>
@@ -298,15 +298,15 @@ const Income = () => {
             <div className="w-full text-center mt-8">
               <button
                 onClick={downloadInvoiceAsPDF}
-                className="mx-14 py-3 px-5 font-bold text-white bg-blue-800 hover:bg-blue-700 rounded-lg hover:shadow transition duration-300 mb-4"
+                className="mx-14 py-3 px-5 font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg hover:shadow transition duration-300 mb-4"
               >
                 Download PDF
               </button>
               <button
                 onClick={addIncome}
-                className="mx-14 py-3 px-5 font-bold text-white bg-green-800 hover:bg-green-700 rounded-lg hover:shadow transition duration-300"
+                className="mx-14 py-3 px-5 font-bold text-white bg-cyan-800 hover:bg-cyan-700 rounded-lg hover:shadow transition duration-300"
               >
-                Add Pembelian
+                Tambah Pembelian
               </button>
             </div>
           )}
