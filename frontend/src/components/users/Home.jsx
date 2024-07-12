@@ -132,13 +132,23 @@ const Home = () => {
     }
   };
 
-  const incomeCategories = incomes.items ? [
+  const incomeCategories = [
     ...new Set(
       incomes.flatMap((income) =>
         income.items.map((item) => item.category.nama_barang)
       )
     ),
-  ] : [];
+  ];
+
+  // const incomeCategories = incomes.items ? [
+  //   ...new Set(
+  //     incomes.flatMap((income) =>
+  //       income.items.map((item) => item.category.nama_barang)
+  //     )
+  //   ),
+  // ] : [];
+
+
   const expenseCategories = [
     ...new Set(expenses.map((expense) => expense.category.nama)),
   ];
@@ -147,7 +157,7 @@ const Home = () => {
   ].sort();
 
   const getIncomeTotal = (category) => {
-    return incomes.items ? incomes
+    return incomes
       .filter((income) => {
         return income.items.some(
           (item) => item.category.nama_barang === category
@@ -167,7 +177,7 @@ const Home = () => {
               0
             )
         );
-      }, 0) : [];
+      }, 0);
   };
 
   const getExpenseTotal = (category) => {
