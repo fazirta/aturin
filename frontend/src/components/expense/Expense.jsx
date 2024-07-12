@@ -15,7 +15,7 @@ const Expense = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/expenseCategories/${user.id}`
+          `${process.env.REACT_APP_BACKEND_URL}/expenseCategories/${user.id}`
         );
         setCategories(response.data);
       } catch (error) {
@@ -28,7 +28,7 @@ const Expense = () => {
   const addExpense = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:5000/expense`, {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/expense`, {
         deskripsi,
         amount: parseFloat(amount),
         userId: user.id,

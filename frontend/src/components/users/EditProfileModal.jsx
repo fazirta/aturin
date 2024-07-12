@@ -1,13 +1,13 @@
 // components/EditProfileModal.js
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
   const [formData, setFormData] = useState({
     nama: user.nama,
     email: user.email,
     no_tlp: user.no_tlp,
-    alamat: user.alamat
+    alamat: user.alamat,
   });
 
   const handleChange = (e) => {
@@ -17,14 +17,17 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('http://localhost:5000/profile/edit', {
-        id: user.id,
-        ...formData
-      });
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/profile/edit`,
+        {
+          id: user.id,
+          ...formData,
+        }
+      );
       onProfileUpdate(response.data);
       onClose();
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     }
   };
 
@@ -33,10 +36,15 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
       <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Edit Profile</h3>
+        <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
+          Edit Profile
+        </h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nama">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="nama"
+            >
               Name
             </label>
             <input
@@ -49,7 +57,10 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -62,7 +73,10 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="no_tlp">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="no_tlp"
+            >
               Phone
             </label>
             <input
@@ -75,7 +89,10 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="alamat">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="alamat"
+            >
               Address
             </label>
             <textarea
