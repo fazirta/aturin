@@ -139,12 +139,12 @@ const Products = () => {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
         <div className="bg-gray-800 p-6 rounded-lg">
-          <h2 className="text-xl font-bold mb-4 text-slate-100">
+          <h2 className="text-xl font-bold mb-4 text-gray-100">
             Edit Category
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-slate-100 mb-2">Nama Barang</label>
+              <label className="block text-gray-100 mb-2">Nama Barang</label>
               <input
                 type="text"
                 name="nama_barang"
@@ -154,7 +154,7 @@ const Products = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-slate-100 mb-2">Harga Barang</label>
+              <label className="block text-gray-100 mb-2">Harga Barang</label>
               <input
                 type="number"
                 name="harga_barang"
@@ -164,7 +164,7 @@ const Products = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-slate-100 mb-2">Stok Barang</label>
+              <label className="block text-gray-100 mb-2">Stok Barang</label>
               <input
                 type="number"
                 name="stock_barang"
@@ -174,7 +174,7 @@ const Products = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-slate-100 mb-2">Discount (%)</label>
+              <label className="block text-gray-100 mb-2">Discount (%)</label>
               <input
                 type="number"
                 name="discount"
@@ -193,7 +193,7 @@ const Products = () => {
               </button>
               <button
                 type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded"
+                className="bg-indigo-500 text-white py-2 px-4 rounded"
               >
                 Update
               </button>
@@ -205,12 +205,12 @@ const Products = () => {
   };
 
   return (
-    <div className="flex max-w-7xl mt-14 mx-auto mb-1 bg-gray-800 p-6 rounded-xl shadow">
+    <div className="flex max-w-6xl mt-14 mx-auto mb-1 bg-gray-800 p-6 rounded-xl shadow">
       <div className="w-1/2 pr-4">
-        <h2 className="text-xl font-bold mb-4 text-slate-200">Lists Barang</h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-200">Lists Barang</h2>
         <table className="w-full mb-4">
           <thead>
-            <tr className="bg-gray-900 text-slate-100">
+            <tr className="bg-gray-900 text-gray-100">
               <th className="py-2 px-4 text-left">#</th>
               <th className="py-2 px-4 text-left">Barang</th>
               <th className="py-2 px-4 text-left">Harga</th>
@@ -220,7 +220,7 @@ const Products = () => {
           </thead>
           <tbody>
             {currentIncomeCategories.map((category, index) => (
-              <tr key={category.id} className="bg-gray-700 text-slate-200">
+              <tr key={category.id} className="bg-gray-700 text-gray-200">
                 <td className="py-2 px-4">
                   {indexOfFirstIncomeCategory + index + 1}
                 </td>
@@ -230,7 +230,7 @@ const Products = () => {
                 <td className="py-2 px-4">
                   <button
                     onClick={() => handleEdit(category)}
-                    className="text-blue-400 py-1 px-2 rounded mr-2"
+                    className="text-indigo-400 py-1 px-2 rounded mr-2"
                   >
                     Edit
                   </button>
@@ -244,7 +244,7 @@ const Products = () => {
             onClick={prevPageIncome}
             className={`px-4 py-2 border rounded ${
               currentPageIncome === 1
-                ? "bg-gray-800 border-none text-slate-500 cursor-not-allowed"
+                ? "bg-gray-800 border-none text-gray-500 cursor-not-allowed"
                 : "border-none bg-gray-900 text-white"
             }`}
             disabled={currentPageIncome === 1}
@@ -259,7 +259,7 @@ const Products = () => {
                 className={`px-4 py-2 border rounded ${
                   currentPageIncome === number
                     ? "border-none bg-gray-900 text-white"
-                    : "border-none bg-gray-800 text-slate-100"
+                    : "border-none bg-gray-800 text-gray-100"
                 }`}
               >
                 {number}
@@ -271,7 +271,7 @@ const Products = () => {
             className={`px-4 py-2 border rounded ${
               currentPageIncome ===
               Math.ceil(incomeCategories.length / categoriesPerPage)
-                ? "bg-gray-800 border-none text-slate-500 cursor-not-allowed"
+                ? "bg-gray-800 border-none text-gray-500 cursor-not-allowed"
                 : "border-none bg-gray-900 text-white"
             }`}
             disabled={
@@ -284,13 +284,11 @@ const Products = () => {
         </div>
       </div>
       <div className="w-1/2 pl-4">
-        <h2 className="text-xl font-bold mb-4 text-slate-100">
-          Add New Barang
-        </h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-100">Tambah Barang</h2>
         <form onSubmit={addIncomeCat}>
           <div className="flex flex-col">
             <div className="mb-5">
-              <label className="font-bold text-slate-100">Nama Barang</label>
+              <label className="font-bold text-gray-100">Nama Barang</label>
               <input
                 type="text"
                 className="w-full py-3 mt-1 border text-white bg-gray-700 border-gray-700 rounded-lg px-3 focus:outline-none focus:border-gray-600 hover:shadow"
@@ -300,7 +298,7 @@ const Products = () => {
               />
             </div>
             <div className="mb-5">
-              <label className="font-bold text-slate-100">Harga Barang</label>
+              <label className="font-bold text-gray-100">Harga Barang</label>
               <input
                 type="number"
                 className="w-full py-3 mt-1 border text-white bg-gray-700 border-gray-700 rounded-lg px-3 focus:outline-none focus:border-gray-600 hover:shadow"
@@ -310,11 +308,11 @@ const Products = () => {
               />
             </div>
             <div className="mb-10">
-              <label className="font-bold text-slate-100">Discount (%)</label>
+              <label className="font-bold text-gray-100">Diskon (%)</label>
               <input
                 type="number"
                 className="w-full py-3 mt-1 border text-white bg-gray-700 border-gray-700 rounded-lg px-3 focus:outline-none focus:border-gray-600 hover:shadow"
-                placeholder="Discount"
+                placeholder="Diskon harga"
                 value={incomeDiscount}
                 onChange={(e) => setIncomeDiscount(e.target.value)}
               />
@@ -323,7 +321,7 @@ const Products = () => {
               type="submit"
               className="w-full py-3 font-bold text-white bg-gray-900 hover:bg-black rounded-lg border-gray-900 hover:shadow"
             >
-              Add Products
+              Tambah Produk
             </button>
           </div>
         </form>

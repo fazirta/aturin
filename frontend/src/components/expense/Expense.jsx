@@ -46,37 +46,37 @@ const Expense = () => {
       <div className="w-full mx-60 bg-gray-800 p-8 rounded-xl">
         <div className="w-full">
           <h2 className="text-3xl font-bold mb-10 text-white">
-            Add New Expense
+            Tambah Pengeluaran
           </h2>
           <form onSubmit={addExpense}>
             <div className="flex flex-col mb-5">
-              <label className="font-bold text-slate-500">Deskripsi</label>
+              <label className="font-bold text-gray-500">Deskripsi</label>
               <input
                 type="text"
-                className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                placeholder="Expense Description"
+                className="w-full py-3 mt-1 text-gray-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                placeholder="Deskripsi pengeluaran"
                 value={deskripsi}
                 onChange={(e) => setDeskripsi(e.target.value)}
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label className="font-bold text-slate-500">Amount</label>
+              <label className="font-bold text-gray-500">Jumlah</label>
               <input
                 type="number"
-                className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                placeholder="Amount"
+                className="w-full py-3 mt-1 text-gray-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                placeholder="Total harga pengeluaran"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
             </div>
             <div className="flex flex-col mb-5">
-              <label className="font-bold text-slate-500">Category</label>
+              <label className="font-bold text-gray-500">Kategori</label>
               <select
-                className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                className="w-full py-3 mt-1 text-gray-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
               >
-                <option value="">Select Category</option>
+                <option value="">Pilih Kategori</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
                     {category.nama}
@@ -88,7 +88,7 @@ const Expense = () => {
               type="submit"
               className="w-full mt-7 py-3 font-bold text-white bg-gray-900 hover:bg-black rounded-lg hover:shadow"
             >
-              Add Expense
+              Tambah
             </button>
           </form>
         </div>

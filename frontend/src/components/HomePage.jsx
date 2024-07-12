@@ -26,22 +26,22 @@ const HomePage = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-gray-900 text-white overflow-x-hidden overflow-y-hidden">
-      <nav className="bg-gray-800 p-4">
+    <div className="bg-gray-900 text-white overflow-x-hidden overflow-y-hidden">
+      <nav className="bg-gray-900 p-4">
         <div className="container mx-auto flex justify-between items-center px-4">
           <img src="/logo512.png" alt="Logo" className="w-32" />
           <div>
             <button
               onClick={handleLogin}
-              className="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-xl text-lg"
             >
-              Login
+              Masuk
             </button>
           </div>
         </div>
       </nav>
 
-      <main className="container mx-auto mt-8 px-4">
+      <main className="container mx-auto px-4 py-10">
         <div className="mb-8 max-w-2xl mx-auto">
           <Slider {...sliderSettings}>
             <div>
@@ -77,9 +77,9 @@ const HomePage = () => {
           </p>
           <button
             onClick={handleRegister}
-            className="bg-green-800 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-full text-lg"
+            className="bg-cyan-600 hover:bg-cyan-700 transition text-white font-bold py-3 px-6 rounded-xl text-lg"
           >
-            Get Started
+            Gabung sekarang
           </button>
         </div>
 

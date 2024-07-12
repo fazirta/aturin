@@ -38,8 +38,15 @@ const Profile = () => {
 
   if (loading)
     return (
-      <div className="text-gray-100 text-xl font-semibold animate-pulse">
-        Loading profile...
+      <div className="text-gray-100 text-xl font-semibold animate-pulse w-full flex justify-center">
+        <div
+          class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+          role="status"
+        >
+          <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
       </div>
     );
   if (error)
@@ -79,7 +86,7 @@ const Profile = () => {
       </table>
       <button
         onClick={() => setIsEditModalOpen(true)}
-        className="mt-4 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:ring-opacity-50"
+        className="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:ring-opacity-50"
       >
         Edit Profile
       </button>

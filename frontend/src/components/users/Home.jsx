@@ -548,16 +548,9 @@ const Home = () => {
           width: 100%;
         }
       `}</style>
-      <header className="bg-gray-900 shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-center text-gray-100">
-            Financial Dashboard
-          </h1>
-        </div>
-      </header>
       <main>
         <div className="max-w-full mx-auto py-2 sm:px-6 lg:px-8">
-          <div className="px-4 py-2 sm:px-0">
+          <div className="px-4 py-2 sm:px-0 flex flex-col gap-3">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div className="bg-gray-800 overflow-hidden shadow rounded-lg">
                 <div className="p-5" style={{ height: "400px" }}>
@@ -600,7 +593,7 @@ const Home = () => {
 
             <div className="mt-8 bg-gray-800 shadow overflow-hidden sm:rounded-lg">
               <div className="px-4 py-5 sm:px-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-100">
+                <h3 className="text-lg leading-6 font-bold text-gray-100">
                   Transaction Details
                 </h3>
               </div>
@@ -646,19 +639,19 @@ const Home = () => {
                 <table className="w-full divide-y divide-gray-700">
                   <thead>
                     <tr>
-                      <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Nama
                       </th>
-                      <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Amount
                       </th>
-                      <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Date
                       </th>
-                      <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Edit
                       </th>
-                      <th className="px-6 py-3 bg-green-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 bg-cyan-800 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Delete
                       </th>
                     </tr>
@@ -678,7 +671,7 @@ const Home = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           <button
                             onClick={() => handleEditIncome(income)}
-                            className="text-blue-500 hover:text-blue-700"
+                            className="text-indigo-500 hover:text-indigo-700"
                           >
                             Edit
                           </button>
@@ -747,7 +740,7 @@ const Home = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           <button
                             onClick={() => handleEditExpense(expense)}
-                            className="text-blue-500 hover:text-blue-700"
+                            className="text-indigo-500 hover:text-indigo-700"
                           >
                             Edit
                           </button>

@@ -50,7 +50,7 @@ const Dashboard = () => {
         } w-64 bg-gray-800 text-white transition-transform duration-300 lg:relative lg:translate-x-0`}
       >
         <div className="p-5">
-          <img src="/logo512.png" alt="Logo" className="w-32" />
+          <img src="/logo512.png" alt="Logo" className="w-32 mx-auto py-2" />
           <ul>
             <li className="mb-2 text-gray-500">Main Feature</li>
             <li className="mb-4 ml-5">

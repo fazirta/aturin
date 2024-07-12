@@ -119,14 +119,14 @@ const ExpenseCategory = () => {
 
   return (
     <div>
-      <div className="flex max-w-7xl mt-16 mx-auto mb-1 bg-gray-800 p-6 rounded-xl shadow">
+      <div className="flex max-w-6xl mt-16 mx-auto mb-1 bg-gray-800 p-6 rounded-xl shadow">
         <div className="w-1/2 pr-4">
-          <h2 className="text-xl font-bold mb-4 text-slate-200">
+          <h2 className="text-xl font-bold mb-4 text-gray-200">
             Lists Expense Categories
           </h2>
           <table className="w-full mb-4">
             <thead>
-              <tr className="bg-gray-900 text-slate-100">
+              <tr className="bg-gray-900 text-gray-100">
                 <th className="py-2 px-4 text-left">#</th>
                 <th className="py-2 px-4 text-left">Nama</th>
                 <th className="py-2 px-4 text-left">Deskripsi</th>
@@ -135,7 +135,7 @@ const ExpenseCategory = () => {
             </thead>
             <tbody>
               {currentExpenseCategories.map((category, index) => (
-                <tr key={category.id} className="bg-gray-700 text-slate-200">
+                <tr key={category.id} className="bg-gray-700 text-gray-200">
                   <td className="py-2 px-4">
                     {indexOfFirstExpenseCategory + index + 1}
                   </td>
@@ -144,7 +144,7 @@ const ExpenseCategory = () => {
                   <td className="py-2 px-4">
                     <button
                       onClick={() => startEditing(category)}
-                      className="mr-2 px-3 py-1 text-blue-400 rounded"
+                      className="mr-2 px-3 py-1 text-indigo-400 rounded"
                     >
                       Edit
                     </button>
@@ -158,7 +158,7 @@ const ExpenseCategory = () => {
               onClick={prevPageExpense}
               className={`px-4 py-2 border rounded ${
                 currentPageExpense === 1
-                  ? "bg-gray-800 border-none text-slate-500 cursor-not-allowed"
+                  ? "bg-gray-800 border-none text-gray-500 cursor-not-allowed"
                   : "border-none bg-gray-900 text-white"
               }`}
               disabled={currentPageExpense === 1}
@@ -173,7 +173,7 @@ const ExpenseCategory = () => {
                   className={`px-4 py-2 border rounded ${
                     currentPageExpense === number
                       ? "border-none bg-gray-900 text-white"
-                      : "border-none bg-gray-800 text-slate-100"
+                      : "border-none bg-gray-800 text-gray-100"
                   }`}
                 >
                   {number}
@@ -185,7 +185,7 @@ const ExpenseCategory = () => {
               className={`px-4 py-2 border rounded ${
                 currentPageExpense ===
                 Math.ceil(expenseCategories.length / categoriesPerPage)
-                  ? "bg-gray-800 border-none text-slate-500 cursor-not-allowed"
+                  ? "bg-gray-800 border-none text-gray-500 cursor-not-allowed"
                   : "border-none bg-gray-900 text-white"
               }`}
               disabled={
@@ -198,38 +198,38 @@ const ExpenseCategory = () => {
           </div>
         </div>
         <div className="w-1/2 pl-4">
-          <h2 className="text-xl font-bold mb-4 text-slate-100">
+          <h2 className="text-xl font-bold mb-4 text-gray-100">
             {editingCategory
-              ? "Edit Expense Category"
-              : "Add New Expense Category"}
+              ? "Edit Kategori Pengeluaran"
+              : "Tambah Kategori Pengeluaran"}
           </h2>
           <form onSubmit={editingCategory ? editExpenseCat : addExpenseCat}>
             <div className="flex flex-col">
               <div className="mb-5">
-                <label className="font-bold text-slate-100">Nama</label>
+                <label className="font-bold text-gray-100">Nama</label>
                 <input
                   type="text"
                   className="w-full py-3 mt-1 border text-white bg-gray-700 border-gray-700 rounded-lg px-3 focus:outline-none focus:border-gray-600 hover:shadow"
-                  placeholder="Nama Expense Category"
+                  placeholder="Nama Kategori Pengeluaran"
                   value={expenseNama}
                   onChange={(e) => setExpenseNama(e.target.value)}
                 />
               </div>
               <div className="mb-5">
-                <label className="font-bold text-slate-100">Deskripsi</label>
+                <label className="font-bold text-gray-100">Deskripsi</label>
                 <input
                   type="text"
                   className="w-full py-3 mt-1 border text-white bg-gray-700 border-gray-700 rounded-lg px-3 focus:outline-none focus:border-gray-600 hover:shadow"
-                  placeholder="Deskripsi Expense Category"
+                  placeholder="Deskripsi Kategori Pengeluaran"
                   value={expenseDeskripsi}
                   onChange={(e) => setExpenseDeskripsi(e.target.value)}
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-3 font-bold text-white bg-gray-900 hover:bg-black rounded-lg border-gray-900 hover:shadow"
+                className="w-full py-3 font-bold text-white bg-gray-900 hover:bg-black transition rounded-lg border-gray-900 hover:shadow"
               >
-                {editingCategory ? "Update Expense" : "Add Expense"}
+                {editingCategory ? "Edit Pengeluaran" : "Tambah Pengeluaran"}
               </button>
               {editingCategory && (
                 <button
@@ -239,9 +239,9 @@ const ExpenseCategory = () => {
                     setExpenseNama("");
                     setExpenseDeskripsi("");
                   }}
-                  className="w-full mt-2 py-3 font-bold text-white bg-gray-600 hover:bg-gray-700 rounded-lg border-gray-600 hover:shadow"
+                  className="w-full mt-2 py-3 font-bold text-white bg-red-900 hover:bg-red-800 transition rounded-lg border-gray-600 hover:shadow"
                 >
-                  Cancel Edit
+                  Batalkan
                 </button>
               )}
             </div>
