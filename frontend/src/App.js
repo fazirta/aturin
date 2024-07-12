@@ -12,7 +12,7 @@ import Income from './components/income/Income';
 import Expense from './components/expense/Expense';
 import Products from './components/income/Products';
 import HomePage from './components/HomePage';
-import AIConsultant from './components/consultant/AIConsultant';
+import AiConsultant from './components/consultant/AiConsultant';
 
 function App() {
   return (
@@ -31,7 +31,7 @@ function App() {
               <Route path="expense_category" element={<ExpenseCategory />} />
               <Route path="income" element={<Income />} />
               <Route path="expense" element={<Expense />} />
-              <Route path="ai_consultant" element={<AIConsultant />} />
+              <Route path="ai_consultant" element={<AiConsultant />} />
             </Route>
           </Routes>
         </BrowserRouter>

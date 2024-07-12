@@ -8,11 +8,11 @@ import html2canvas from 'html2canvas';
 const Income = () => {
     const [noPembelian, setNoPembelian] = useState('');
     const [namaPembeli, setNamaPembeli] = useState('');
-    const [jumlahPembelian, setJumlahPembelian] = useState('');
-    const [categoryId, setCategoryId] = useState('');
+    const [selectedItems, setSelectedItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [showInvoice, setShowInvoice] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [totalDiscount, setTotalDiscount] = useState(0);
     const { user } = useAuth();
     const navigate = useNavigate();
     const invoiceRef = useRef();
@@ -29,15 +29,45 @@ const Income = () => {
         fetchCategories();
     }, [user.id]);
 
+    const addItem = () => {
+        setSelectedItems([...selectedItems, { categoryId: '', quantity: '' }]);
+    };
+
+    const updateItem = (index, field, value) => {
+        const newItems = [...selectedItems];
+        newItems[index][field] = value;
+        setSelectedItems(newItems);
+    };
+
+    const handleShowInvoice = (e) => {
+        e.preventDefault();
+        let totalPrice = 0;
+        let totalDiscount = 0;
+        selectedItems.forEach(item => {
+            const selectedCategory = categories.find(c => c.id === parseInt(item.categoryId));
+            if (selectedCategory) {
+                const basePrice = selectedCategory.harga_barang * parseInt(item.quantity);
+                const discountAmount = basePrice * parseFloat(selectedCategory.discount / 100);
+                totalPrice += basePrice;
+                totalDiscount += discountAmount;
+            }
+        });
+        setTotalPrice(totalPrice);
+        setTotalDiscount(totalDiscount);
+        setShowInvoice(true);
+    };
+
     const addIncome = async (e) => {
         e.preventDefault();
         try {
             await axios.post(`http://localhost:5000/incomes`, {
                 no_pembelian: noPembelian,
                 nama_pembeli: namaPembeli,
-                jumlah_pembelian: parseInt(jumlahPembelian),
                 userId: user.id,
-                categoryId: parseInt(categoryId),
+                items: selectedItems.map(item => ({
+                    categoryId: parseInt(item.categoryId),
+                    jumlah_pembelian: parseInt(item.quantity)
+                }))
             });
             navigate('/dashboard/home');
         } catch (error) {
@@ -45,19 +75,6 @@ const Income = () => {
         }
     };
 
-    const handleShowInvoice = (e) => {
-        e.preventDefault();
-        const selectedCategory = categories.find(c => c.id === parseInt(categoryId));
-        if (selectedCategory) {
-            const basePrice = selectedCategory.harga_barang * parseInt(jumlahPembelian);
-            const discountAmount = basePrice * parseFloat(selectedCategory.discount / 100);
-            const priceAfterDiscount = basePrice - discountAmount;
-            const taxAmount = priceAfterDiscount * 0.025; // 2.5% tax
-            const total = priceAfterDiscount - taxAmount;
-            setTotalPrice(total);
-            setShowInvoice(true);
-        }
-    };
 
     const formatRupiah = (amount) => {
         return amount.toLocaleString('id-ID', {
@@ -72,18 +89,16 @@ const Income = () => {
             .then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF('potrait');
-                
+
                 pdf.setFillColor(156, 163, 175);
                 pdf.rect(0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight(), 'F');
-    
+
                 const imgWidth = pdf.internal.pageSize.getWidth();
                 const imgHeight = canvas.height * imgWidth / canvas.width;
                 pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
                 pdf.save("invoice.pdf");
             });
     };
-    
-    
 
     return (
         <div className="flex items-center justify-center h-screen">
@@ -96,7 +111,7 @@ const Income = () => {
                             <input
                                 type="text"
                                 className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                                placeholder="Income Description"
+                                placeholder="No Pembelian"
                                 value={noPembelian}
                                 onChange={(e) => setNoPembelian(e.target.value)}
                             />
@@ -106,37 +121,42 @@ const Income = () => {
                             <input
                                 type="text"
                                 className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                                placeholder="Income Description"
+                                placeholder="Nama Pembeli"
                                 value={namaPembeli}
                                 onChange={(e) => setNamaPembeli(e.target.value)}
                             />
                         </div>
-                        <div className="flex flex-col mb-5">
-                            <label className="font-bold text-slate-500">Nama Barang</label>
-                            <select
-                                className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                                value={categoryId}
-                                onChange={(e) => setCategoryId(e.target.value)}
-                            >
-                                <option value="">Select Barang</option>
-                                {categories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.nama_barang}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="flex flex-col mb-5">
-                            <label className="font-bold text-slate-500">Jumlah Pembelian</label>
-                            <input
-                                type="number"
-                                className="w-full py-3 mt-1 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
-                                placeholder="Amount"
-                                value={jumlahPembelian}
-                                onChange={(e) => setJumlahPembelian(e.target.value)}
-                            />
-                        </div>
-                        <div className="flex flex-1">
+                        {selectedItems.map((item, index) => (
+                            <div key={index} className="flex mb-3">
+                                <select
+                                    className="w-1/2 py-3 mr-2 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                                    value={item.categoryId}
+                                    onChange={(e) => updateItem(index, 'categoryId', e.target.value)}
+                                >
+                                    <option value="">Select Barang</option>
+                                    {categories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.nama_barang}
+                                        </option>
+                                    ))}
+                                </select>
+                                <input
+                                    type="number"
+                                    className="w-1/2 py-3 text-slate-100 bg-gray-700 rounded-lg px-3 focus:outline-none"
+                                    placeholder="Jumlah"
+                                    value={item.quantity}
+                                    onChange={(e) => updateItem(index, 'quantity', e.target.value)}
+                                />
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={addItem}
+                            className="mt-2 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                            Tambah Barang
+                        </button>
+                        <div className="flex flex-1 mt-5">
                             <button type="submit" className="w-full mt-7 py-3 font-bold text-white bg-gray-900 hover:bg-black rounded-lg hover:shadow">
                                 Show Invoice
                             </button>
@@ -152,19 +172,30 @@ const Income = () => {
                         </div>
                         <div className="mb-6">
                             <table className="min-w-full bg-gray-400">
+                                <thead>
+                                    <tr>
+                                        <th className="px-4 py-2 text-xl font-bold text-gray-700">Nama Barang</th>
+                                        <th className="px-4 py-2 text-xl font-bold text-gray-700">Harga Barang</th>
+                                        <th className="px-4 py-2 text-xl font-bold text-gray-700">Jumlah</th>
+                                        <th className="px-4 py-2 text-xl font-bold text-gray-700">Subtotal</th>
+                                        <th className="px-4 py-2 text-xl font-bold text-gray-700">Discount</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    <tr>
-                                        <td className="px-4 py-2 text-xl font-bold text-gray-700">Nama Barang:</td>
-                                        <td className="px-4 py-2 text-xl font-bold">{showInvoice ? categories.find(c => c.id === parseInt(categoryId))?.nama_barang : '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="px-4 py-2 text-xl font-bold text-gray-700">Harga Barang:</td>
-                                        <td className="px-4 py-2 text-xl font-bold">{showInvoice ? 'Rp. ' + formatRupiah(categories.find(c => c.id === parseInt(categoryId))?.harga_barang) : '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="px-4 py-2 text-xl font-bold text-gray-700">Jumlah Pembelian:</td>
-                                        <td className="px-4 py-2 text-xl font-bold">{showInvoice ? jumlahPembelian + ' Pcs' : '-'}</td>
-                                    </tr>
+                                    {showInvoice && selectedItems.map((item, index) => {
+                                        const category = categories.find(c => c.id === parseInt(item.categoryId));
+                                        const subtotal = category ? category.harga_barang * parseInt(item.quantity) : 0;
+                                        const discount = category ? subtotal * (category.discount / 100) : 0;
+                                        return (
+                                            <tr key={index}>
+                                                <td className="px-4 py-2 text-xl font-bold">{category ? category.nama_barang : '-'}</td>
+                                                <td className="px-4 py-2 text-xl font-bold">{category ? formatRupiah(category.harga_barang) : '-'}</td>
+                                                <td className="px-4 py-2 text-xl font-bold">{item.quantity} Pcs</td>
+                                                <td className="px-4 py-2 text-xl font-bold">{formatRupiah(subtotal)}</td>
+                                                <td className="px-4 py-2 text-xl font-bold">{formatRupiah(discount)}</td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -173,11 +204,11 @@ const Income = () => {
                                 <tbody>
                                     <tr>
                                         <td className="px-4 py-2 text-xl font-bold text-gray-700">Subtotal:</td>
-                                        <td className="px-4 py-2 text-xl font-bold">{showInvoice ? 'Rp. ' + formatRupiah(categories.find(c => c.id === parseInt(categoryId))?.harga_barang * parseInt(jumlahPembelian)) : '-'}</td>
+                                        <td className="px-4 py-2 text-xl font-bold">{showInvoice ? formatRupiah(totalPrice) : '-'}</td>
                                     </tr>
                                     <tr>
-                                        <td className="px-4 py-2 text-xl font-bold text-gray-700">Discount:</td>
-                                        <td className="px-4 py-2 text-xl font-bold">{showInvoice ? `${categories.find(c => c.id === parseInt(categoryId))?.discount}%` : '-'}</td>
+                                        <td className="px-4 py-2 text-xl font-bold text-gray-700">Total Discount:</td>
+                                        <td className="px-4 py-2 text-xl font-bold">{showInvoice ? formatRupiah(totalDiscount) : '-'}</td>
                                     </tr>
                                     <tr>
                                         <td className="px-4 py-2 text-xl font-bold text-gray-700">Tax:</td>
@@ -185,12 +216,11 @@ const Income = () => {
                                     </tr>
                                     <tr>
                                         <td className="px-4 py-2 text-2xl font-bold text-gray-800 mt-4">Total Harga:</td>
-                                        <td className="px-4 py-2 text-2xl font-bold">{showInvoice ? 'Rp. ' + formatRupiah(totalPrice) : '-'}</td>
+                                        <td className="px-4 py-2 text-2xl font-bold">{showInvoice ? formatRupiah(totalPrice - totalDiscount) : '-'}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                     {showInvoice && (
                         <div className="w-full text-center mt-8">

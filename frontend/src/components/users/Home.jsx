@@ -89,10 +89,15 @@ const Home = () => {
       const expenses = expensesResponse.data;
       const products = productsResponse.data;
 
+      console.log(incomes)
+
+      console.log(incomes)
+      console.log(products)
+
       const incomesWithTotal = incomes.map(income => {
         const product = products.find(p => p.id === income.categoryId);
         if (product) {
-          const basePrice = product.harga_barang * parseInt(income.jumlah_pembelian);
+          const basePrice = product.harga_barang * parseInt(income.total_pembelian);
           const discountAmount = basePrice * (product.discount / 100);
           const priceAfterDiscount = basePrice - discountAmount;
           const taxAmount = priceAfterDiscount * 0.025;
@@ -311,7 +316,7 @@ const Home = () => {
     datasets: [
       {
         data: [
-          Math.max(incomes.reduce((sum, income) => sum + (income.total || 0), 0), 0.01),
+          Math.max(incomes.reduce((sum, income) => sum + (income.total_pembelian || 0), 0), 0.01),
           Math.max(expenses.reduce((sum, expense) => sum + expense.amount, 0), 0.01)
         ],
         backgroundColor: [chartColors.income, chartColors.expense],
@@ -548,8 +553,8 @@ const Home = () => {
                     {paginateData(incomes, incomePage).map((income) => (
                       <tr key={income.id}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{income.nama_pembeli}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">Rp. {formatRupiah(income.total)}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{income.category ? income.category.nama_barang : 'N/A'}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">Rp. {formatRupiah(income.total_pembelian)}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{income.product.nama_barang}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{new Date(income.createdAt).toLocaleDateString()}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300"><button
                           onClick={() => handleEditIncome(income)}

@@ -38,23 +38,6 @@ model Expense {
   category   ExpenseCategory @relation(fields: [categoryId], references: [id])
 }
 
-model Income {
-  id Int @id @default(autoincrement())
-
-  no_pembelian     String
-  nama_pembeli     String
-  jumlah_pembelian Int
-  createdAt        DateTime @default(now())
-
-  // Foreign key ke user
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-
-  // Foreign key ke kategori pemasukan
-  categoryId Int
-  category   IncomeCategory @relation(fields: [categoryId], references: [id])
-}
-
 model ExpenseCategory {
   id        Int    @id @default(autoincrement())
   nama      String
@@ -68,14 +51,35 @@ model ExpenseCategory {
   expenses Expense[]
 }
 
+model Income {
+  id              Int              @id @default(autoincrement())
+  no_pembelian    String           @unique
+  nama_pembeli    String
+  total_pembelian Float
+  user            User             @relation(fields: [userId], references: [id])
+  userId          Int
+  items           IncomeItem[]
+  createdAt       DateTime         @default(now())
+}
+
 model IncomeCategory {
-  id           Int    @id @default(autoincrement())
+  id           Int          @id @default(autoincrement())
   nama_barang  String
-  harga_barang Float
-  discount     Float?
+  harga_barang Int
+  discount     Float
+  user         User         @relation(fields: [userId], references: [id])
+  userId       Int
+  incomeItems  IncomeItem[]
+}
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-
-  incomes Income[]
+model IncomeItem {
+  id               Int            @id @default(autoincrement())
+  income           Income         @relation(fields: [incomeId], references: [id])
+  incomeId         Int
+  category         IncomeCategory @relation(fields: [categoryId], references: [id])
+  categoryId       Int
+  jumlah_pembelian Int
+  harga_satuan     Float
+  subtotal         Float
+  discount         Float
 }

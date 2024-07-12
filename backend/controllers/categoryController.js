@@ -3,10 +3,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const getAllIncomeCategories = async (req, res) => {
+  const { userId } = req.params;
+
   try {
-    const userId = Number(req.params.userId);
     const categories = await prisma.incomeCategory.findMany({
-      where: { userId: userId }
+      where: { userId: parseInt(userId) }
     });
     res.status(200).json(categories);
   } catch (error) {

@@ -11,6 +11,8 @@ export const getAllIncomeByUserId = async (req, res) => {
                 userId: parseInt(userId)
             },
             include: {
+                user: true,
+                items: true,
                 category: true
             }
         });
@@ -22,24 +24,76 @@ export const getAllIncomeByUserId = async (req, res) => {
 };
 
 export const createIncome = async (req, res) => {
-    const { no_pembelian, nama_pembeli, jumlah_pembelian, userId, categoryId } = req.body;
-
+    const { no_pembelian, nama_pembeli, userId, items } = req.body;
+    
     try {
-        const newIncome = await prisma.income.create({
-            data: {
-                no_pembelian,
-                nama_pembeli,
-                jumlah_pembelian: Number(jumlah_pembelian),
-                userId: parseInt(userId),
-                categoryId: parseInt(categoryId),
+        const result = await prisma.$transaction(async (prisma) => {
+            const income = await prisma.income.create({
+                data: {
+                    no_pembelian,
+                    nama_pembeli,
+                    total_pembelian: 0, // We'll update this later
+                    user: {
+                        connect: { id: userId }
+                    }
+                },
+            });
+
+            let totalPembelian = 0;
+            let totalDiscount = 0;
+
+            for (const item of items) {
+                const { categoryId, jumlah_pembelian } = item;
+                const category = await prisma.incomeCategory.findUnique({
+                    where: { id: categoryId },
+                });
+                
+                if (!category) {
+                    throw new Error(`Category with id ${categoryId} not found`);
+                }
+
+                const subtotal = category.harga_barang * jumlah_pembelian;
+                const itemDiscount = subtotal * (category.discount / 100);
+
+                await prisma.incomeItem.create({
+                    data: {
+                        jumlah_pembelian,
+                        harga_satuan: category.harga_barang,
+                        subtotal,
+                        discount: itemDiscount,
+                        income: {
+                            connect: { id: income.id }
+                        },
+                        category: {
+                            connect: { id: categoryId }
+                        }
+                    },
+                });
+
+                totalPembelian += subtotal;
+                totalDiscount += itemDiscount;
             }
+
+            const updatedIncome = await prisma.income.update({
+                where: { id: income.id },
+                data: {
+                    total_pembelian: totalPembelian - totalDiscount,
+                },
+            });
+
+            return { incomeId: income.id, totalPembelian, totalDiscount };
         });
-        res.status(201).json(newIncome);
+
+        res.status(201).json({ 
+            message: 'Income added successfully', 
+            data: result 
+        });
     } catch (error) {
-        console.error("Error creating income:", error);
-        res.status(500).json({ error: "Error creating income" });
+        console.error(error);
+        res.status(500).json({ message: 'Error adding income', error: error.message });
     }
 };
+
 
 export const editIncome = async (req, res) => {
     const { id } = req.params;
