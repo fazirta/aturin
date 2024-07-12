@@ -56,12 +56,6 @@ const EditIncomeModal = ({ income, onClose, onUpdate }) => {
             />
           </div>
           <div className="mb-4">
-            <label
-              className="block text-gray-300 text-sm font-bold mb-2"
-              htmlFor="total_pembelian"
-            >
-              Jumlah Pembelian
-            </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="total_pembelian"

@@ -101,19 +101,18 @@ export const createIncome = async (req, res) => {
 
 export const editIncome = async (req, res) => {
   const { id } = req.params;
-  const { no_pembelian, nama_pembeli, total_pembelian, userId, createdAt } =
+  const { no_pembelian, nama_pembeli, total_pembelian, createdAt } =
     req.body;
 
   try {
     const updatedIncome = await prisma.income.update({
       where: {
-        id: parseInt(id),
+        id: parseInt(id)
       },
       data: {
         no_pembelian,
         nama_pembeli,
         total_pembelian: Number(total_pembelian),
-        userId: parseInt(userId),
         createdAt: new Date(createdAt),
       },
     });

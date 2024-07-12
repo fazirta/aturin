@@ -102,7 +102,7 @@ const Dashboard = () => {
             <li className="mb-4 ml-5">
               <Link
                 to="/dashboard/expense_category"
-                className={getLinkClass("/dashboard/category")}
+                className={getLinkClass("/dashboard/expense_category")}
               >
                 <AiOutlineProfile className="mr-3" />
                 Expense Category
