@@ -35,14 +35,14 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-      <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
+      <div className="relative top-20 mx-auto p-5 border border-gray-700 w-96 shadow-lg rounded-md bg-gray-800">
+        <h3 className="text-lg font-medium leading-6 text-gray-200 mb-4">
           Edit Profile
         </h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-400 text-sm font-bold mb-2"
               htmlFor="nama"
             >
               Name
@@ -53,12 +53,12 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
               id="nama"
               value={formData.nama}
               onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-400 text-sm font-bold mb-2"
               htmlFor="email"
             >
               Email
@@ -69,12 +69,12 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
               id="email"
               value={formData.email}
               onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-400 text-sm font-bold mb-2"
               htmlFor="no_tlp"
             >
               Phone
@@ -85,12 +85,12 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
               id="no_tlp"
               value={formData.no_tlp}
               onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-400 text-sm font-bold mb-2"
               htmlFor="alamat"
             >
               Address
@@ -100,7 +100,7 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
               id="alamat"
               value={formData.alamat}
               onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline"
             ></textarea>
           </div>
           <div className="flex items-center justify-between">

@@ -15,6 +15,7 @@ const Income = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [totalTax, setTotalTax] = useState(0);
   const navigate = useNavigate();
   const invoiceRef = useRef();
   const { user } = useAuth();
@@ -66,6 +67,8 @@ const Income = () => {
     e.preventDefault();
     let totalPrice = 0;
     let totalDiscount = 0;
+    let totalTax = 0;
+
     selectedItems.forEach((item) => {
       const selectedCategory = categories.find(
         (c) => c.id === parseInt(item.categoryId)
@@ -75,12 +78,16 @@ const Income = () => {
           selectedCategory.harga_barang * parseInt(item.jumlah_pembelian);
         const discountAmount =
           basePrice * parseFloat(selectedCategory.discount / 100);
+        const taxAmount = basePrice * parseFloat(2.5 / 100)
+
         totalPrice += basePrice;
         totalDiscount += discountAmount;
+        totalTax += taxAmount
       }
     });
     setTotalPrice(totalPrice);
     setTotalDiscount(totalDiscount);
+    setTotalTax(totalTax)
     setShowInvoice(true);
   };
 
@@ -171,7 +178,7 @@ const Income = () => {
             <button
               type="button"
               onClick={addItem}
-              className="mt-2 py-3 px-5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-500"
+              className="mt-2 py-3 px-5 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800"
             >
               Tambah Barang
             </button>
@@ -286,7 +293,7 @@ const Income = () => {
                     </td>
                     <td className="px-4 py-2 text-2xl font-bold">
                       {showInvoice
-                        ? formatRupiah(totalPrice - totalDiscount)
+                        ? formatRupiah(totalPrice - (totalDiscount + totalTax))
                         : "-"}
                     </td>
                   </tr>

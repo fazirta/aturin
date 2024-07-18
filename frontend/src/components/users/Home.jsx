@@ -25,6 +25,9 @@ import { TimeScale } from "chart.js";
 import EditIncomeModal from ".././income/EditIncomeModal";
 import EditExpenseModal from ".././expense/EditExpenseModal";
 
+import { saveAs } from 'file-saver';
+import ExcelJS from 'exceljs';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -117,7 +120,7 @@ const Home = () => {
             product.harga_barang * parseInt(income.jumlah_pembelian);
           const discountAmount = basePrice * (product.discount / 100);
           const priceAfterDiscount = basePrice - discountAmount;
-          const taxAmount = priceAfterDiscount * 0.025;
+          const taxAmount = 0.025;
           const total = priceAfterDiscount - taxAmount;
           return { ...income, total, nama_barang: product.nama_barang };
         }
@@ -164,7 +167,7 @@ const Home = () => {
                 subtotal +
                 (item.category.harga_barang -
                   item.category.harga_barang * (item.category.discount / 100)) *
-                  item.jumlah_pembelian,
+                item.jumlah_pembelian,
               0
             )
         );
@@ -522,6 +525,79 @@ const Home = () => {
     );
   };
 
+  const generateReport = async () => {
+    const sortedIncomes = [...incomes].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const sortedExpenses = [...expenses].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+    const workbook = new ExcelJS.Workbook();
+  
+    const createWorksheet = (name, headers, data) => {
+      const worksheet = workbook.addWorksheet(name);
+      
+      const headerRow = worksheet.addRow(headers);
+  
+      headerRow.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'D3D3D3' }
+        };
+        cell.font = { bold: true, size: 14 };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        cell.border = {
+          top: {style:'thin'},
+          left: {style:'thin'},
+          bottom: {style:'thin'},
+          right: {style:'thin'}
+        };
+      });
+  
+      data.forEach(rowData => {
+        const row = worksheet.addRow(rowData);
+        row.eachCell((cell) => {
+          cell.border = {
+            top: {style:'thin'},
+            left: {style:'thin'},
+            bottom: {style:'thin'},
+            right: {style:'thin'}
+          };
+        });
+      });
+  
+      worksheet.columns.forEach((column) => {
+        column.width = 25;
+      });
+    };
+  
+    const incomeData = sortedIncomes.flatMap(income => 
+      income.items.map(item => [
+        income.nama_pembeli,
+        item.category.nama_barang,
+        item.jumlah_pembelian,
+        item.category.harga_barang,
+        item.category.discount,
+        income.total_pembelian,
+        new Date(income.createdAt).toLocaleDateString()
+      ])
+    );
+    const incomeHeaders = ['Nama Pembeli', 'Nama Barang', 'Jumlah Pembelian', 'Harga Barang', 'Diskon (%)', 'Total', 'Tanggal'];
+    createWorksheet('Incomes', incomeHeaders, incomeData);
+  
+    const expenseData = sortedExpenses.map(expense => [
+      expense.deskripsi,
+      expense.amount,
+      expense.category.nama,
+      new Date(expense.createdAt).toLocaleDateString()
+    ]);
+    const expenseHeaders = ['Deskripsi', 'Jumlah', 'Kategori', 'Tanggal'];
+    createWorksheet('Expenses', expenseHeaders, expenseData);
+  
+    const buffer = await workbook.xlsx.writeBuffer();
+    const data = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    
+    saveAs(data, 'financial_report.xlsx');
+  };
+
   return (
     <div className="bg-gray-900 min-h-screen text-gray-100">
       <style jsx>{`
@@ -539,9 +615,18 @@ const Home = () => {
           width: 100%;
         }
       `}</style>
+
       <main>
         <div className="max-w-full mx-auto py-2 sm:px-6 lg:px-8">
           <div className="px-4 py-2 sm:px-0 flex flex-col gap-3">
+            <div className="mt-4 text-end">
+              <button
+                onClick={generateReport}
+                className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800"
+              >
+                Download Report
+              </button>
+            </div>
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div className="bg-gray-800 overflow-hidden shadow rounded-lg">
                 <div className="p-5" style={{ height: "400px" }}>
