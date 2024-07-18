@@ -576,11 +576,12 @@ const Home = () => {
         item.jumlah_pembelian,
         item.category.harga_barang,
         item.category.discount,
+        2.5,
         income.total_pembelian,
         new Date(income.createdAt).toLocaleDateString()
       ])
     );
-    const incomeHeaders = ['Nama Pembeli', 'Nama Barang', 'Jumlah Pembelian', 'Harga Barang', 'Diskon (%)', 'Total', 'Tanggal'];
+    const incomeHeaders = ['Nama Pembeli', 'Nama Barang', 'Jumlah Pembelian', 'Harga Barang', 'Diskon (%)', "Tax", 'Total', 'Tanggal'];
     createWorksheet('Incomes', incomeHeaders, incomeData);
   
     const expenseData = sortedExpenses.map(expense => [
