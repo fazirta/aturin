@@ -26,7 +26,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white w-screen">
+    <div className="bg-gray-900 text-white w-screen h-screen">
       <nav className="bg-gray-900 p-4">
         <div className="container mx-auto flex justify-between items-center px-4">
           <img src="/logo512.png" alt="Logo" className="w-32" />

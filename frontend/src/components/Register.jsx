@@ -26,7 +26,7 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-gray-900 flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8 w-screen">
+    <div className="bg-gray-900 flex h-screen flex-col justify-center px-6 py-12 lg:px-8 w-screen">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src="/logo512.png" alt="Logo" className="w-32 mx-auto" />
       </div>
