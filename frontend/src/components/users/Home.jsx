@@ -744,7 +744,7 @@ const Home = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           Rp.{" "}
                           {formatRupiah(income.total_pembelian) !== null
-                            ? income.total_pembelian
+                            ? formatRupiah(income.total_pembelian)
                             : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
@@ -815,7 +815,7 @@ const Home = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                           Rp.{" "}
                           {formatRupiah(expense.amount) !== null
-                            ? expense.amount
+                            ? formatRupiah(expense.amount)
                             : "N/A"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
